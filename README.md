@@ -23,8 +23,8 @@ A simple Telegram bot that uses webhooks instead of polling, with ngrok for loca
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/youruse
-cd telegram-webhook-bot
+git clone https://github.com/IvanDeus/Simple-Telegram-Bot.git
+cd Simple-Telegram-Bot
 ```
 
 2. **Install dependencies**
@@ -78,7 +78,7 @@ INFO:__main__:Health check available at: http://localhost:7777/health
 ## 📁 Project Structure
 
 ```
-telegram-bot/
+Simple-Telegram-Bot/
 ├── bot.py                 # Main bot application
 ├── config.py              # Configuration file (create from example)
 ├── config.py.example      # Example configuration template
