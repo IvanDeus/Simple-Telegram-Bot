@@ -4,7 +4,7 @@ Simple Telegram Bot With Ngrok Webhook Setup
 
 A simple Telegram bot that uses webhooks instead of polling, with ngrok for local development and testing. The bot responds to `/start` command and provides a default response for all other messages.
 
-## 🚀 Features
+## Features
 
 - Webhook-based Telegram bot using Flask
 - Ngrok integration for exposing local server to the internet
@@ -13,7 +13,7 @@ A simple Telegram bot that uses webhooks instead of polling, with ngrok for loca
 - Clean shutdown and resource cleanup
 - Comprehensive logging
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Python 3.7 or higher
 - Telegram Bot Token (from [@BotFather](https://t.me/botfather))
