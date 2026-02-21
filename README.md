@@ -53,7 +53,7 @@ LOCAL_PORT = 7777
 WEBHOOK_PATH = "/webhook"
 ```
 
-## Usage
+## 📡 Usage
 
 1. **Run the bot**
 ```bash
