@@ -1,0 +1,4 @@
+telebot
+Flask
+pyngrok
+requests
