@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+env/
+
+# Config files with secrets
+config.py
+!config.py.example
+
+# Logs
+*.log
