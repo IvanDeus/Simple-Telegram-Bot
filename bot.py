@@ -57,7 +57,7 @@ def send_welcome(message):
 def default_response(message):
     """Default response for all other messages"""
     response_text = f"📨 You sent: {message.text}\n\n🤖 This is a simple default message for all other inputs."
-    bot.reply_to(message, response_text)
+    bot.send_message(message.from_user.id, response_text)
     logger.info(f"Message from user {message.from_user.id}: {message.text}")
 
 def setup_webhook():
