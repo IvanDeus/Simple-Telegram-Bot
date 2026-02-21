@@ -53,7 +53,7 @@ LOCAL_PORT = 7777
 WEBHOOK_PATH = "/webhook"
 ```
 
-## 🎮 Usage
+## Usage
 
 1. **Run the bot**
 ```bash
@@ -124,4 +124,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 
-**⭐ Don't forget to star the repository if you found it helpful!**
+2026 [ ivan deus ]
