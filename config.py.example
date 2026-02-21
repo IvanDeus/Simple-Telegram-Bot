@@ -1,0 +1,15 @@
+# config.py.example - Template for configuration
+# Copy this to config.py and fill in your actual tokens
+
+# Telegram Bot Token (get from @BotFather)
+BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
+
+# Ngrok Auth Token (get from https://dashboard.ngrok.com/auth)
+NGROK_AUTH_TOKEN = "YOUR_NGROK_AUTH_TOKEN"
+
+# Local server configuration
+LOCAL_HOST = "127.0.0.1"  # Listen on all interfaces
+LOCAL_PORT = 7777        # Port for local server
+
+# Webhook endpoint path
+WEBHOOK_PATH = "/webhook"
