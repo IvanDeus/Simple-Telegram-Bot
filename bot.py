@@ -5,8 +5,6 @@ import time
 import logging
 import json
 import os
-
-# Import configuration
 import config
 
 # Configure logging
@@ -24,7 +22,6 @@ user_languages = {}
 
 # Load messages from JSON file
 def load_all_messages():
-    """Load all messages from JSON file"""
     try:
         with open('messages.json', 'r', encoding='utf-8') as file:
             return json.load(file)
@@ -32,36 +29,36 @@ def load_all_messages():
         logger.error("messages.json file not found! Using default messages.")
         return {
             "en": {
-                "welcome": {"text": "👋 Hello! Welcome to this bot."},
-                "default_response": {"text": "📨 Default response."},
+                "welcome": {"text": "👋 Hello!"},
+                "default_response": {"text": "Default"},
                 "language_prompt": {"text": "Select language:"},
-                "language_changed": {"text": "Language changed to English"},
-                "help": {"text": "Available commands:\n/start\n/language\n/help"}
+                "language_changed": {"text": "Language changed"},
+                "help": {"text": "Commands:\n/start\n/language\n/help"}
             },
             "es": {
-                "welcome": {"text": "👋 ¡Hola! Bienvenido a este bot."},
-                "default_response": {"text": "📨 Mensaje por defecto."},
+                "welcome": {"text": "👋 ¡Hola!"},
+                "default_response": {"text": "Mensaje."},
                 "language_prompt": {"text": "Selecciona idioma:"},
-                "language_changed": {"text": "Idioma cambiado a Español"},
-                "help": {"text": "Comandos disponibles:\n/start\n/language\n/help"}
+                "language_changed": {"text": "Idioma cambiado"},
+                "help": {"text": "Comandos:\n/start\n/language\n/help"}
             }
         }
     except json.JSONDecodeError:
         logger.error("Invalid JSON in messages.json! Using default messages.")
         return {
             "en": {
-                "welcome": {"text": "👋 Hello! Welcome to this bot."},
-                "default_response": {"text": "📨 Default response."},
+                "welcome": {"text": " Hello!"},
+                "default_response": {"text": " - "},
                 "language_prompt": {"text": "Select language:"},
-                "language_changed": {"text": "Language changed to English"},
-                "help": {"text": "Available commands:\n/start\n/language\n/help"}
+                "language_changed": {"text": "Eng"},
+                "help": {"text": "\n/start\n/language\n/help"}
             },
             "es": {
-                "welcome": {"text": "👋 ¡Hola! Bienvenido a este bot."},
-                "default_response": {"text": "📨 Mensaje por defecto."},
+                "welcome": {"text": "👋"},
+                "default_response": {"text": " - "},
                 "language_prompt": {"text": "Selecciona idioma:"},
-                "language_changed": {"text": "Idioma cambiado a Español"},
-                "help": {"text": "Comandos disponibles:\n/start\n/language\n/help"}
+                "language_changed": {"text": "Esp"},
+                "help": {"text": "\n/start\n/language\n/help"}
             }
         }
 
@@ -88,14 +85,6 @@ def webhook():
             return jsonify({"error": "Error processing message"}), 500
     else:
         return jsonify({"error": "Invalid content type"}), 403
-
-# Health check endpoint
-@app.route('/health', methods=['GET'])
-def health():
-    return jsonify({
-        "status": "healthy", 
-        "webhook_url": bot.get_webhook_info().url
-    }), 200
 
 # ============= MESSAGE HANDLERS =============
 # IMPORTANT: Order matters! Put specific handlers FIRST, generic handlers LAST
@@ -189,7 +178,7 @@ def setup_webhook():
         if bot.set_webhook(url=webhook_url):
             logger.info("✅ Webhook set successfully!")
             webhook_info = bot.get_webhook_info()
-            logger.info(f"📊 Webhook info: URL={webhook_info.url}, pending updates={webhook_info.pending_update_count}")
+            logger.info(f"Webhook info: URL={webhook_info.url}, pending updates={webhook_info.pending_update_count}")
             return True
         else:
             logger.error("❌ Failed to set webhook")
@@ -204,7 +193,7 @@ def cleanup():
     try:
         bot.remove_webhook()
         ngrok.kill()
-        logger.info("🧹 Cleanup completed")
+        logger.info("Cleanup completed")
     except Exception as e:
         logger.error(f"Error during cleanup: {e}")
 
@@ -222,6 +211,6 @@ if __name__ == '__main__':
             logger.error("Failed to setup webhook. Exiting.")
             
     except KeyboardInterrupt:
-        logger.info("👋 Shutting down...")
+        logger.info("Shutting down...")
     finally:
         cleanup()
