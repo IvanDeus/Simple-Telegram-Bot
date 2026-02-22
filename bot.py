@@ -84,13 +84,6 @@ def send_welcome(message):
     bot.reply_to(message, welcome_text)
     logger.info(f"Start command from user {message.from_user.id}")
 
-@bot.message_handler(func=lambda message: True)
-def default_response(message):
-    """Default response for all other messages"""
-    response_text = MESSAGES.get('default_response', {}).get('text', 'Default response')
-    bot.send_message(message.from_user.id, response_text)
-    logger.info(f"Message from user {message.from_user.id}: {message.text}")
-
 # Optional: Handler with language selection (for multi-language support)
 @bot.message_handler(commands=['language'])
 def set_language(message):
@@ -113,6 +106,14 @@ def language_callback(call):
         call.message.chat.id,
         call.message.message_id
     )
+
+@bot.message_handler(func=lambda message: True)
+def default_response(message):
+    """Default response for all other messages"""
+    response_text = MESSAGES.get('default_response', {}).get('text', 'Default response')
+    bot.send_message(message.from_user.id, response_text)
+    logger.info(f"Message from user {message.from_user.id}: {message.text}")
+
 
 def setup_webhook():
     """Setup ngrok tunnel and configure Telegram webhook"""
