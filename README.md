@@ -65,7 +65,6 @@ INFO:__main__:Ngrok tunnel established: https://xxxx-xx-xxx-xxx.ngrok-free.app
 INFO:__main__:Setting webhook to: https://xxxx-xx-xxx-xxx.ngrok-free.app/webhook
 INFO:__main__:Webhook set successfully!
 INFO:__main__:Starting Flask server on 127.0.0.1:7777
-INFO:__main__:Health check available at: http://localhost:7777/health
 ```
 
 3. **Test your bot**
