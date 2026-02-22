@@ -47,7 +47,7 @@ def load_all_messages():
         logger.error("Invalid JSON in messages.json! Using default messages.")
         return {
             "en": {
-                "welcome": {"text": " Hello!"},
+                "welcome": {"text": "Hello!"},
                 "default_response": {"text": " - "},
                 "language_prompt": {"text": "Select language:"},
                 "language_changed": {"text": "Eng"},
@@ -88,7 +88,6 @@ def webhook():
 
 # ============= MESSAGE HANDLERS =============
 # IMPORTANT: Order matters! Put specific handlers FIRST, generic handlers LAST
-
 # 1. First, handle specific commands
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -157,20 +156,15 @@ def setup_webhook():
     try:
         # Kill any existing ngrok processes
         ngrok.kill()
-        
         # Set ngrok auth token from config
         ngrok.set_auth_token(config.NGROK_AUTH_TOKEN)
-        
         # Create ngrok tunnel to local port
         tunnel = ngrok.connect(config.LOCAL_PORT, "http")
-        
-        # Get the public URL
         public_url = tunnel.public_url
         webhook_url = f"{public_url}{config.WEBHOOK_PATH}"
         
         logger.info(f"Ngrok tunnel established: {public_url}")
         logger.info(f"Setting webhook to: {webhook_url}")
-        
         # Remove existing webhook and set new one
         bot.remove_webhook()
         time.sleep(1)
@@ -189,7 +183,6 @@ def setup_webhook():
         return False
 
 def cleanup():
-    """Cleanup resources on shutdown"""
     try:
         bot.remove_webhook()
         ngrok.kill()
