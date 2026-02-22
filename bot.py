@@ -66,7 +66,8 @@ ALL_MESSAGES = load_all_messages()
 
 def get_message(user_id, message_key):
     """Get message in user's language"""
-    language = user_languages.get(user_id, 'en')  # Default to English
+    # Default to English
+    language = user_languages.get(user_id, 'en')
     return ALL_MESSAGES.get(language, {}).get(message_key, {}).get('text', f"Message not found: {message_key}")
 
 # Webhook route
