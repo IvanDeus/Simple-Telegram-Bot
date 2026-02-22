@@ -1,7 +1,7 @@
 {
   "en": {
     "welcome": {
-      "text": "👋 Hello! Welcome to this bot.\n\nI'm running via webhook and ngrok!\nSend me any message and I'll respond."
+      "text": "👋 Hello! Welcome to this bot.\n\nI'm running via webhook and ngrok!\nSend me any message and I'll respond.\nTo switch to another language type /language"
     },
     "default_response": {
       "text": "📨 This is a simple default message for all other inputs."
