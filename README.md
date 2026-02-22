@@ -9,7 +9,6 @@ A simple Telegram bot with multilanguage support that uses webhooks instead of p
 - Webhook-based Telegram bot using Flask
 - Ngrok integration for exposing local server to the internet
 - Separate configuration file for easy setup
-- Health check endpoint for monitoring
 - Clean shutdown and resource cleanup
 - Comprehensive logging
 
