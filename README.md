@@ -71,7 +71,7 @@ INFO:__main__:Health check available at: http://localhost:7777/health
 
 3. **Test your bot**
 - Open Telegram and find your bot
-- Send `/start` command
+- Send `/start` and `/help` commands
 - Send any other message
 - The bot should respond accordingly
 
@@ -96,11 +96,6 @@ Simple-Telegram-Bot/
 4. **Message Handlers**:
    - `/start` command: Returns a welcome message
    - All other messages: Returns a simple default response
-
-## 📡 API Endpoints
-
-- `POST /webhook` - Main webhook endpoint for Telegram updates
-- `GET /health` - Health check endpoint returning bot status
 
 ## 🧹 Cleanup
 
