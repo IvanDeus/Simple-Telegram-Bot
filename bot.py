@@ -17,10 +17,8 @@ bot = telebot.TeleBot(config.BOT_TOKEN)
 # Flask app for webhook
 app = Flask(__name__)
 
-# Simple in-memory storage for user languages (use a database in production!)
-user_languages = {}
-
 # Load messages from JSON file
+user_languages = {}
 def load_all_messages():
     try:
         with open('messages.json', 'r', encoding='utf-8') as file:
@@ -115,7 +113,6 @@ def set_language(message):
     btn_en = telebot.types.InlineKeyboardButton("🇬🇧 English", callback_data="lang_en")
     btn_es = telebot.types.InlineKeyboardButton("🇪🇸 Español", callback_data="lang_es")
     markup.add(btn_en, btn_es)
-    
     prompt_text = get_message(user_id, 'language_prompt')
     bot.reply_to(message, prompt_text, reply_markup=markup)
 
@@ -125,13 +122,10 @@ def language_callback(call):
     """Handle language selection"""
     user_id = call.from_user.id
     lang = call.data.split('_')[1]
-    
     # Store user's language preference
     user_languages[user_id] = lang
-    
     # Acknowledge the callback
     bot.answer_callback_query(call.id)
-    
     # Update the message with confirmation in the new language
     confirmation_text = get_message(user_id, 'language_changed')
     bot.edit_message_text(
@@ -139,7 +133,6 @@ def language_callback(call):
         call.message.chat.id,
         call.message.message_id
     )
-    
     logger.info(f"User {user_id} changed language to {lang}")
 
 # 5. LAST - Generic handler for everything else (must be last!)
@@ -154,15 +147,14 @@ def default_response(message):
 def setup_webhook():
     """Setup ngrok tunnel and configure Telegram webhook"""
     try:
-        # Kill any existing ngrok processes
+        # Kill any existing ngrok
         ngrok.kill()
         # Set ngrok auth token from config
         ngrok.set_auth_token(config.NGROK_AUTH_TOKEN)
-        # Create ngrok tunnel to local port
+        # Create ngrok tunnel
         tunnel = ngrok.connect(config.LOCAL_PORT, "http")
         public_url = tunnel.public_url
         webhook_url = f"{public_url}{config.WEBHOOK_PATH}"
-        
         logger.info(f"Ngrok tunnel established: {public_url}")
         # Remove existing webhook and set new one
         bot.remove_webhook()
@@ -194,7 +186,7 @@ if __name__ == '__main__':
         # Setup webhook
         if setup_webhook():
             logger.info(f"Starting server on {config.LOCAL_HOST}:{config.LOCAL_PORT}")
-            # Run Flask app
+            # Run app
             app.run(host=config.LOCAL_HOST, port=config.LOCAL_PORT, debug=False)
         else:
             logger.error("Failed to setup webhook. Exiting.")
