@@ -164,7 +164,6 @@ def setup_webhook():
         webhook_url = f"{public_url}{config.WEBHOOK_PATH}"
         
         logger.info(f"Ngrok tunnel established: {public_url}")
-        logger.info(f"Setting webhook to: {webhook_url}")
         # Remove existing webhook and set new one
         bot.remove_webhook()
         time.sleep(1)
@@ -194,7 +193,7 @@ if __name__ == '__main__':
     try:
         # Setup webhook
         if setup_webhook():
-            logger.info(f"Starting Flask server on {config.LOCAL_HOST}:{config.LOCAL_PORT}")
+            logger.info(f"Starting server on {config.LOCAL_HOST}:{config.LOCAL_PORT}")
             # Run Flask app
             app.run(host=config.LOCAL_HOST, port=config.LOCAL_PORT, debug=False)
         else:
