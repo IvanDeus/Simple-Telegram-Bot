@@ -82,8 +82,9 @@ Simple-Telegram-Bot/
 ├── bot.py                 # Main bot application
 ├── config.py              # Configuration file (create from example)
 ├── config.py.example      # Example configuration template
+├── messages.json          # All bot messages in several languages 
 ├── requirements.txt       # Python dependencies
-├── README.md             # This file
+├── README.md              # This file
 └── .gitignore            # Git ignore rules
 ```
 
