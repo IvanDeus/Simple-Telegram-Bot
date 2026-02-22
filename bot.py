@@ -88,7 +88,7 @@ def send_welcome(message):
 def default_response(message):
     """Default response for all other messages"""
     response_text = MESSAGES.get('default_response', {}).get('text', 'Default response')
-    bot.reply_to(message, response_text)
+    bot.send_message(message.from_user.id, response_text)
     logger.info(f"Message from user {message.from_user.id}: {message.text}")
 
 # Optional: Handler with language selection (for multi-language support)
