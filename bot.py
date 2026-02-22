@@ -5,6 +5,7 @@ import time
 import logging
 import json
 import os
+
 # Import configuration
 import config
 
@@ -18,36 +19,59 @@ bot = telebot.TeleBot(config.BOT_TOKEN)
 # Flask app for webhook
 app = Flask(__name__)
 
+# Simple in-memory storage for user languages (use a database in production!)
+user_languages = {}
+
 # Load messages from JSON file
-def load_messages(language='en'):
-    """Load messages from JSON file"""
+def load_all_messages():
+    """Load all messages from JSON file"""
     try:
         with open('messages.json', 'r', encoding='utf-8') as file:
-            messages = json.load(file)
-            
-        # Check if multi-language structure is used
-        if language in messages:
-            return messages[language]
-        return messages  # Return as-is for simple structure
-        
+            return json.load(file)
     except FileNotFoundError:
         logger.error("messages.json file not found! Using default messages.")
         return {
-            "welcome": {"text": "👋 Hello! Welcome to this bot."},
-            "default_response": {"text": "📨 Default response."},
-            "errors": {"processing_error": "Error processing message."}
+            "en": {
+                "welcome": {"text": "👋 Hello! Welcome to this bot."},
+                "default_response": {"text": "📨 Default response."},
+                "language_prompt": {"text": "Select language:"},
+                "language_changed": {"text": "Language changed to English"},
+                "help": {"text": "Available commands:\n/start\n/language\n/help"}
+            },
+            "es": {
+                "welcome": {"text": "👋 ¡Hola! Bienvenido a este bot."},
+                "default_response": {"text": "📨 Mensaje por defecto."},
+                "language_prompt": {"text": "Selecciona idioma:"},
+                "language_changed": {"text": "Idioma cambiado a Español"},
+                "help": {"text": "Comandos disponibles:\n/start\n/language\n/help"}
+            }
         }
     except json.JSONDecodeError:
         logger.error("Invalid JSON in messages.json! Using default messages.")
         return {
-            "welcome": {"text": "👋 Hello! Welcome to this bot."},
-            "default_response": {"text": "📨 Default response."},
-            "errors": {"processing_error": "Error processing message."}
+            "en": {
+                "welcome": {"text": "👋 Hello! Welcome to this bot."},
+                "default_response": {"text": "📨 Default response."},
+                "language_prompt": {"text": "Select language:"},
+                "language_changed": {"text": "Language changed to English"},
+                "help": {"text": "Available commands:\n/start\n/language\n/help"}
+            },
+            "es": {
+                "welcome": {"text": "👋 ¡Hola! Bienvenido a este bot."},
+                "default_response": {"text": "📨 Mensaje por defecto."},
+                "language_prompt": {"text": "Selecciona idioma:"},
+                "language_changed": {"text": "Idioma cambiado a Español"},
+                "help": {"text": "Comandos disponibles:\n/start\n/language\n/help"}
+            }
         }
 
-# Load messages
-MESSAGES = load_messages()  # For simple structure
-# For multi-language: MESSAGES = load_messages('en')
+# Load all messages
+ALL_MESSAGES = load_all_messages()
+
+def get_message(user_id, message_key):
+    """Get message in user's language"""
+    language = user_languages.get(user_id, 'en')  # Default to English
+    return ALL_MESSAGES.get(language, {}).get(message_key, {}).get('text', f"Message not found: {message_key}")
 
 # Webhook route
 @app.route(config.WEBHOOK_PATH, methods=['POST'])
@@ -61,11 +85,9 @@ def webhook():
             return jsonify({"status": "ok"}), 200
         except Exception as e:
             logger.error(f"Error processing update: {e}")
-            error_message = MESSAGES.get('errors', {}).get('processing_error', 'Error processing message')
-            return jsonify({"error": error_message}), 500
+            return jsonify({"error": "Error processing message"}), 500
     else:
         return jsonify({"error": "Invalid content type"}), 403
-
 
 # Health check endpoint
 @app.route('/health', methods=['GET'])
@@ -75,45 +97,71 @@ def health():
         "webhook_url": bot.get_webhook_info().url
     }), 200
 
+# ============= MESSAGE HANDLERS =============
+# IMPORTANT: Order matters! Put specific handlers FIRST, generic handlers LAST
 
-# Message handlers
+# 1. First, handle specific commands
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     """Handle /start command"""
-    welcome_text = MESSAGES.get('welcome', {}).get('text', 'Welcome!')
-    bot.reply_to(message, welcome_text)
-    logger.info(f"Start command from user {message.from_user.id}")
+    user_id = message.from_user.id
+    welcome_text = get_message(user_id, 'welcome')
+    bot.reply_to(message, welcome_text, parse_mode="Markdown")
+    logger.info(f"Start command from user {user_id}")
 
-# Optional: Handler with language selection (for multi-language support)
+# 2. Handle /help command
+@bot.message_handler(commands=['help'])
+def send_help(message):
+    """Handle /help command"""
+    user_id = message.from_user.id
+    help_text = get_message(user_id, 'help')
+    bot.reply_to(message, help_text, parse_mode="Markdown")
+    logger.info(f"Help command from user {user_id}")
+
+# 3. Handle /language command (specific command)
 @bot.message_handler(commands=['language'])
 def set_language(message):
     """Change language (example command)"""
+    user_id = message.from_user.id
     markup = telebot.types.InlineKeyboardMarkup()
-    btn_en = telebot.types.InlineKeyboardButton("English", callback_data="lang_en")
-    btn_es = telebot.types.InlineKeyboardButton("Español", callback_data="lang_es")
+    btn_en = telebot.types.InlineKeyboardButton("🇬🇧 English", callback_data="lang_en")
+    btn_es = telebot.types.InlineKeyboardButton("🇪🇸 Español", callback_data="lang_es")
     markup.add(btn_en, btn_es)
-    bot.reply_to(message, "Select language:", reply_markup=markup)
+    
+    prompt_text = get_message(user_id, 'language_prompt')
+    bot.reply_to(message, prompt_text, reply_markup=markup)
 
+# 4. Handle callback queries from inline keyboards
 @bot.callback_query_handler(func=lambda call: call.data.startswith('lang_'))
 def language_callback(call):
     """Handle language selection"""
+    user_id = call.from_user.id
     lang = call.data.split('_')[1]
-    # You would need to store user language preference in a database
-    # For now, just acknowledge
-    bot.answer_callback_query(call.id, f"Language set to {lang}")
+    
+    # Store user's language preference
+    user_languages[user_id] = lang
+    
+    # Acknowledge the callback
+    bot.answer_callback_query(call.id)
+    
+    # Update the message with confirmation in the new language
+    confirmation_text = get_message(user_id, 'language_changed')
     bot.edit_message_text(
-        f"Language changed to {lang}",
+        confirmation_text,
         call.message.chat.id,
         call.message.message_id
     )
+    
+    logger.info(f"User {user_id} changed language to {lang}")
 
+# 5. LAST - Generic handler for everything else (must be last!)
 @bot.message_handler(func=lambda message: True)
 def default_response(message):
     """Default response for all other messages"""
-    response_text = MESSAGES.get('default_response', {}).get('text', 'Default response')
-    bot.send_message(message.from_user.id, response_text)
-    logger.info(f"Message from user {message.from_user.id}: {message.text}")
-
+    user_id = message.from_user.id
+    response_text = get_message(user_id, 'default_response')
+    bot.send_message(message.chat.id, response_text)
+    logger.info(f"Message from user {user_id}: {message.text}")
 
 def setup_webhook():
     """Setup ngrok tunnel and configure Telegram webhook"""
@@ -144,14 +192,12 @@ def setup_webhook():
             logger.info(f"📊 Webhook info: URL={webhook_info.url}, pending updates={webhook_info.pending_update_count}")
             return True
         else:
-            error_msg = MESSAGES.get('errors', {}).get('webhook_setup', 'Failed to set webhook')
-            logger.error(f"❌ {error_msg}")
+            logger.error("❌ Failed to set webhook")
             return False
             
     except Exception as e:
         logger.error(f"❌ Error setting up webhook: {e}")
         return False
-
 
 def cleanup():
     """Cleanup resources on shutdown"""
