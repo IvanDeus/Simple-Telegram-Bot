@@ -195,9 +195,6 @@ if __name__ == '__main__':
         # Setup webhook
         if setup_webhook():
             logger.info(f"Starting Flask server on {config.LOCAL_HOST}:{config.LOCAL_PORT}")
-            logger.info(f"Health check available at: http://localhost:{config.LOCAL_PORT}/health")
-            logger.info("Press Ctrl+C to stop")
-            
             # Run Flask app
             app.run(host=config.LOCAL_HOST, port=config.LOCAL_PORT, debug=False)
         else:
