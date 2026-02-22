@@ -1,3 +1,4 @@
+# bot.py by ivan deus
 import telebot
 from flask import Flask, request, jsonify
 from pyngrok import ngrok
