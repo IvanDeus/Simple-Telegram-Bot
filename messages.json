@@ -1,14 +1,23 @@
 {
   "en": {
     "welcome": {
-      "text": "👋 Hello! Welcome to this bot.\n\nI'm running via webhook and ngrok!\nSend me any message and I'll respond.\nTo switch to another language type /language"
+      "text": "👋 Hello! Welcome to this bot.\n\nI'm running via webhook and ngrok!\nSend me any message and I'll respond."
     },
     "default_response": {
       "text": "📨 This is a simple default message for all other inputs."
     },
+    "language_prompt": {
+      "text": "🌐 Please select your language:"
+    },
+    "language_changed": {
+      "text": "✅ Language changed to English. All messages will now be in English."
+    },
+    "help": {
+      "text": "🔍 *Available Commands:*\n\n/start - Welcome message and bot introduction\n/language - Change your preferred language\n/help - Show this help message\n\n📝 *How to use:*\nJust send any message and I'll respond with a default message!\n\n🌍 *Multi-language:*\nUse /language to switch between English and Spanish"
+    },
     "errors": {
-      "webhook_setup": "❌ Failed to set webhook. Exiting.",
-      "processing_error": "❌ Error processing your message. Please try again."
+      "webhook_setup": "Failed to set webhook. Exiting.",
+      "processing_error": "Error processing your message. Please try again."
     }
   },
   "es": {
@@ -18,9 +27,18 @@
     "default_response": {
       "text": "📨 Este es un mensaje simple por defecto para todas las demás entradas."
     },
+    "language_prompt": {
+      "text": "🌐 Por favor, selecciona tu idioma:"
+    },
+    "language_changed": {
+      "text": "✅ Idioma cambiado a Español. Todos los mensajes ahora estarán en Español."
+    },
+    "help": {
+      "text": "🔍 *Comandos Disponibles:*\n\n/start - Mensaje de bienvenida y presentación del bot\n/language - Cambiar tu idioma preferido\n/help - Mostrar este mensaje de ayuda\n\n📝 *Cómo usar:*\n¡Envía cualquier mensaje y responderé con un mensaje por defecto!\n\n🌍 *Multi-idioma:*\nUsa /language para cambiar entre inglés y español"
+    },
     "errors": {
-      "webhook_setup": "❌ Error al configurar webhook. Saliendo.",
-      "processing_error": "❌ Error al procesar tu mensaje. Por favor, intenta de nuevo."
+      "webhook_setup": "Error al configurar webhook. Saliendo.",
+      "processing_error": "Error al procesar tu mensaje. Por favor, intenta de nuevo."
     }
   }
 }
