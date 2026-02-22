@@ -1,0 +1,26 @@
+{
+  "en": {
+    "welcome": {
+      "text": "👋 Hello! Welcome to this bot.\n\nI'm running via webhook and ngrok!\nSend me any message and I'll respond."
+    },
+    "default_response": {
+      "text": "📨 This is a simple default message for all other inputs."
+    },
+    "errors": {
+      "webhook_setup": "❌ Failed to set webhook. Exiting.",
+      "processing_error": "❌ Error processing your message. Please try again."
+    }
+  },
+  "es": {
+    "welcome": {
+      "text": "👋 ¡Hola! Bienvenido a este bot.\n\n¡Estoy funcionando mediante webhook y ngrok!\nEnvíame cualquier mensaje y responderé."
+    },
+    "default_response": {
+      "text": "📨 Este es un mensaje simple por defecto para todas las demás entradas."
+    },
+    "errors": {
+      "webhook_setup": "❌ Error al configurar webhook. Saliendo.",
+      "processing_error": "❌ Error al procesar tu mensaje. Por favor, intenta de nuevo."
+    }
+  }
+}
