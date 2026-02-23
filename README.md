@@ -1,6 +1,6 @@
 # Simple-Telegram-Bot
 Simple Telegram Bot With Ngrok Webhook Setup
-# Telegram Bot with Webhook and Ngrok
+# Python Telegram Bot with Webhook and Ngrok
 
 A simple Telegram bot with multilanguage support that uses webhooks instead of polling, with ngrok for local development and testing. The bot responds to `/start` and `/help` commands and provides a default response for all other messages.
 
